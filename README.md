@@ -35,4 +35,4 @@ A modern and interactive quiz application built with React. Test your knowledge,
    npm run dev
  ```
 
- The app is deployed on vercel : 
+ The app is deployed on vercel : https://quizify-182.vercel.app/
