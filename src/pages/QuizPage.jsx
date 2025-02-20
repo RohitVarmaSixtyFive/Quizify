@@ -5,6 +5,7 @@ import ProgressBar from '../components/ProgressBar';
 import QuestionCard from '../components/QuestionCard';
 import NavigationFooter from '../components/NavigationFooter';
 import Scoreboard from '../components/Scoreboard';
+import { ArrowLeftCircleIcon } from '@heroicons/react/16/solid';
 
 const QuizPage = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -126,19 +127,22 @@ const QuizPage = () => {
     background: 'linear-gradient(to bottom, #eff6ff, #eef2ff)',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+ 
   };
 
   const quizContainerStyle = {
     width: '100%',
-    maxWidth: '800px',
+    maxWidth: '1200px',
     height: '90%',
     backgroundColor: 'white',
     borderRadius: '1rem',
     boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
     overflow: 'hidden',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column', 
+    marginLeft: '-5%',
+    marginTop: '-5%'  
   };
 
   if (showScoreboard) {
@@ -157,7 +161,9 @@ const QuizPage = () => {
   return (
     <div style={containerStyle}>
       <div style={quizContainerStyle}>
-        <QuizHeader title={sampleQuiz.title} score={score} />
+        <div style={{ textAlign: 'center' }}>
+          <QuizHeader title={sampleQuiz.title} score={score} />
+        </div>
         <ProgressBar percentage={progressPercentage} />
         
         <div style={{ 

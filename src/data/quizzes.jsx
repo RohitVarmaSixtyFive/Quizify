@@ -1,6 +1,6 @@
 export const sampleQuiz = {
     id: '1',
-    title: 'General Knowledge Quiz',
+    title: 'Quiz',
     questions: [
       {
         id: 'q1',
