@@ -13,7 +13,9 @@ const HomePage = () => {
     alignItems: 'center',
     textAlign: 'center',
     color: '#333',
-    fontFamily: 'Arial, sans-serif'
+    fontFamily: 'Arial, sans-serif',
+    marginLeft : '-5%',
+    marginTop : '-5%'
   };
 
   const startButtonStyle = {
