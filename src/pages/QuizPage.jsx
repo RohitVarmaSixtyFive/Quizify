@@ -168,7 +168,7 @@ const QuizPage = () => {
         
         <div style={{ 
           flex: '1 1 auto',
-          padding: '1.5rem',
+          padding: '0.5rem',
           overflowY: 'auto',
           display: 'flex',
           flexDirection: 'column'
