@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function QuestionCard({
   question,
@@ -39,16 +39,41 @@ export default function QuestionCard({
   // Selected option styling
   const selectedOptionStyle = {
     ...optionStyle,
-    // borderColor: '#4f46e5',
     backgroundColor: '#eff6ff',
     fontWeight: '500'
   };
 
   // Timer color based on remaining time or expiration
   const timerColor = isExpired ? '#9ca3af' : timer <= 10 ? '#ef4444' : timer <= 20 ? '#f59e0b' : '#374151';
-  
+
   // Determine timer text
   const timerText = isExpired ? "Time Expired" : `Time Left: ${timer}s`;
+
+  // Input box styling
+  const inputStyle = {
+    padding: '0.75rem',
+    margin: '0.5rem 0',
+    borderRadius: '0.375rem',
+    border: '2px solid #d1d5db', // Light gray border
+    fontSize: '1rem',
+    width: '100%',
+    transition: 'border-color 0.3s ease',
+    backgroundColor: isExpired ? '#f3f4f6' : '#ffffff',
+    cursor: isExpired ? 'not-allowed' : 'text',
+    color: isExpired ? '#9ca3af' : '#1f2937'
+  };
+
+  // State for numerical input
+  const [inputValue, setInputValue] = useState(selectedAnswer || '');
+
+  // Handle input change for numerical answers
+  const handleInputChange = (e) => {
+    if (!isExpired) {
+      const value = e.target.value;
+      setInputValue(value);
+      onAnswerSelect(value); // Update the parent component's state
+    }
+  };
 
   return (
     <div style={cardStyle}>
@@ -68,33 +93,33 @@ export default function QuestionCard({
           EXPIRED
         </div>
       )}
-    
+
       <h3 style={{ marginBottom: '1rem', color: '#1f2937' }}>
         Question {questionNumber} of {totalQuestions}
       </h3>
-      
+
       <p style={{ fontSize: '1.125rem', marginBottom: '1.5rem' }}>
         {question.text}
       </p>
-      
+
       {/* Timer with visual indication */}
-      <div style={{ 
-        marginBottom: '1.5rem', 
+      <div style={{
+        marginBottom: '1.5rem',
         color: timerColor,
         fontWeight: timer <= 20 && !isExpired ? '600' : '400',
         display: 'flex',
         alignItems: 'center',
         gap: '0.5rem'
       }}>
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          width="20" 
-          height="20" 
-          viewBox="0 0 24 24" 
-          fill="none" 
-          stroke={timerColor} 
-          strokeWidth="2" 
-          strokeLinecap="round" 
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke={timerColor}
+          strokeWidth="2"
+          strokeLinecap="round"
           strokeLinejoin="round"
         >
           <circle cx="12" cy="12" r="10"></circle>
@@ -102,7 +127,7 @@ export default function QuestionCard({
         </svg>
         <span>{timerText}</span>
       </div>
-      
+
       {/* Expired notice */}
       {isExpired && (
         <div style={{
@@ -118,34 +143,45 @@ export default function QuestionCard({
           </p>
         </div>
       )}
-      
-      {/* Options */}
-      <div>
-        {question.options.map((option, index) => (
-          <div
-            key={`option-${questionNumber}-${index}`}
-            style={selectedAnswer === option ? selectedOptionStyle : optionStyle}
-            onClick={() => !isExpired && onAnswerSelect(option)}
-          >
-            <span style={{ 
-              width: '24px', 
-              height: '24px',
-              borderRadius: '50%',
-              backgroundColor: selectedAnswer === option ? '#4f46e5' : '#e5e7eb',
-              color: selectedAnswer === option ? '#ffffff' : '#4b5563',
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginRight: '0.75rem',
-              fontWeight: '600',
-              opacity: isExpired ? 0.8 : 1
-            }}>
-              {String.fromCharCode(65 + index)}
-            </span>
-            {option}
-          </div>
-        ))}
-      </div>
+
+      {/* Options or Input Box */}
+      {question.options.length > 0 ? (
+        <div>
+          {question.options.map((option, index) => (
+            <div
+              key={`option-${questionNumber}-${index}`}
+              style={selectedAnswer === option ? selectedOptionStyle : optionStyle}
+              onClick={() => !isExpired && onAnswerSelect(option)}
+            >
+              <span style={{
+                width: '24px',
+                height: '24px',
+                borderRadius: '50%',
+                backgroundColor: selectedAnswer === option ? '#4f46e5' : '#e5e7eb',
+                color: selectedAnswer === option ? '#ffffff' : '#4b5563',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: '0.75rem',
+                fontWeight: '600',
+                opacity: isExpired ? 0.8 : 1
+              }}>
+                {String.fromCharCode(65 + index)}
+              </span>
+              {option}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <input
+          type="text"
+          value={inputValue}
+          onChange={handleInputChange}
+          style={inputStyle}
+          placeholder="Enter your answer"
+          disabled={isExpired} // Disable input if the question has expired
+        />
+      )}
     </div>
   );
 }
